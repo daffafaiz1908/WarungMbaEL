@@ -246,7 +246,7 @@ export default function CheckoutForm({ isOpen, onClose }: CheckoutFormProps) {
             
             <div className="qris-image-wrapper">
               <Image 
-                src="/images/qris.jpg" 
+                src="/images/qris.jpeg" 
                 alt="QRIS Warung MbaEL" 
                 fill 
                 style={{ objectFit: "contain" }} 
