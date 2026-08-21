@@ -37,6 +37,10 @@ export function generateWhatsAppMessage(
 
   const paymentIcon = checkout.paymentMethod === "QRIS" ? "📱" : "💵";
 
+  const qrisNote = checkout.paymentMethod === "QRIS"
+    ? `\n\n📌 *Catatan Pembayaran:*\nSaya sudah transfer via QRIS sejumlah ${formatPrice(totalPrice)}. Berikut saya lampirkan screenshot bukti transfernya.`
+    : "";
+
   const message = `Halo Warung MbaEL! 👋
 
 Saya ingin memesan:
@@ -49,7 +53,7 @@ ${itemLines}
 
 👤 Nama: ${checkout.name}
 🛵 Tipe Pesanan: Delivery${addressLine}
-${paymentIcon} Pembayaran: ${checkout.paymentMethod}${notesLine}
+${paymentIcon} Pembayaran: ${checkout.paymentMethod}${notesLine}${qrisNote}
 
 Mohon konfirmasi pesanan saya. Terima kasih! 🙏`;
 

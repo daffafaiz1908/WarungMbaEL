@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useCartStore } from "@/store/cart-store";
 import { redirectToWhatsApp, PaymentMethod } from "@/lib/whatsapp";
 import { formatPrice } from "@/data/menu";
@@ -17,6 +18,7 @@ export default function CheckoutForm({ isOpen, onClose }: CheckoutFormProps) {
   const [notes, setNotes] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("Cash");
   const [errors, setErrors] = useState<{ name?: string; address?: string }>({});
+  const [showQrisModal, setShowQrisModal] = useState(false);
 
   const total = totalPrice();
 
@@ -28,17 +30,26 @@ export default function CheckoutForm({ isOpen, onClose }: CheckoutFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
+  const handleFinalSubmit = () => {
     redirectToWhatsApp(
       items,
       { name, orderType: "Delivery", paymentMethod, address, notes },
       total
     );
     clearCart();
+    setShowQrisModal(false);
     onClose();
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    if (paymentMethod === "QRIS") {
+      setShowQrisModal(true);
+    } else {
+      handleFinalSubmit();
+    }
   };
 
   return (
@@ -224,6 +235,42 @@ export default function CheckoutForm({ isOpen, onClose }: CheckoutFormProps) {
           </form>
         </div>
       </aside>
+
+      {/* QRIS Modal */}
+      {showQrisModal && (
+        <>
+          <div className="modal-backdrop" onClick={() => setShowQrisModal(false)} aria-hidden="true" />
+          <div className="qris-modal" role="dialog" aria-labelledby="qris-title">
+            <h3 id="qris-title" className="qris-title">Pembayaran QRIS</h3>
+            <p className="qris-desc">Silakan scan kode QR di bawah ini dengan aplikasi e-wallet atau m-banking kamu.</p>
+            
+            <div className="qris-image-wrapper">
+              <Image 
+                src="/images/qris.jpg" 
+                alt="QRIS Warung MbaEL" 
+                fill 
+                style={{ objectFit: "contain" }} 
+              />
+            </div>
+            
+            <div className="qris-amount-box">
+              <span>Total Tagihan:</span>
+              <span className="qris-amount">{formatPrice(total)}</span>
+            </div>
+            
+            <p className="qris-note">⚠️ <strong>Penting:</strong> Masukkan nominal sesuai total tagihan dan simpan bukti transfer untuk dilampirkan ke WhatsApp.</p>
+            
+            <div className="qris-actions">
+              <button className="btn-whatsapp btn-full" onClick={handleFinalSubmit}>
+                Saya Sudah Bayar, Lanjut ke WA
+              </button>
+              <button className="btn-ghost btn-full" onClick={() => setShowQrisModal(false)}>
+                Tutup
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
