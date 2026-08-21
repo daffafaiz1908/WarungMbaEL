@@ -11,8 +11,8 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
     <section className="hero-section" id="hero">
       <div className="hero-image-wrapper">
         <Image
-          src="/images/hero-banner.jpg"
-          alt="Warung MbaEL — Ayam Geprek & Dimsum Terlezat"
+          src="/images/banner.jpeg"
+          alt="Warung MbaEL Banner"
           fill
           priority
           style={{ objectFit: "cover" }}
