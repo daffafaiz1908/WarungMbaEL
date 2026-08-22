@@ -22,7 +22,7 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
       </div>
 
       <div className="hero-content container">
-        <div className="hero-badge">🔥 Buka Setiap Hari</div>
+        <div className="hero-badge">🔥 Buka Setiap Hari (13.00 - 22.00)</div>
         <h1 className="hero-title">
           Warung <span className="hero-title-accent">MbaEL</span>
         </h1>

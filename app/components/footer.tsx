@@ -13,7 +13,7 @@ export default function Footer() {
           </div>
           <div className="footer-item">
             <span>🕐</span>
-            <span>Delivery Setiap Hari 09.00 – 22.00</span>
+            <span>Delivery Setiap Hari 13.00 – 22.00</span>
           </div>
           <div className="footer-item">
             <span>📱</span>
